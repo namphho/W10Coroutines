@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".screens.login.LoginFragment">
+
+        <Button
+            android:id="@+id/btn_load_movie_parallel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load Movies In Parallel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_load_movie_sequences"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Load Movies In Sequence"
+            app:layout_constraintEnd_toEndOf="@+id/btn_load_movie_parallel"
+            app:layout_constraintStart_toStartOf="@+id/btn_load_movie_parallel"
+            app:layout_constraintTop_toBottomOf="@+id/btn_load_movie_parallel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
