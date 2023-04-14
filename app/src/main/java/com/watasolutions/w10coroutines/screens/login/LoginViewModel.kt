@@ -13,8 +13,12 @@ class LoginViewModel : ViewModel() {
 
     fun getNowPlaying() {
         viewModelScope.launch {
-            val movieResp =
-                MovieRestClient.getInstance().api.listNowPlayMovies(language = "en-US", page = 1)
+            Log.e(TAG, Thread.currentThread().toString())
+            val movieResp = withContext(Dispatchers.IO){
+                    Log.e(TAG, Thread.currentThread().toString())
+                    MovieRestClient.getInstance().api.listNowPlayMovies(language = "en-US", page = 1)
+            }
+            Log.e(TAG, Thread.currentThread().toString())
             Log.e("getNowPlaying", movieResp.results.toString())
         }
     }
@@ -29,7 +33,7 @@ class LoginViewModel : ViewModel() {
 
     fun getNowPlayingAndComingUpMovieInSequences() {
         viewModelScope.launch {
-            //Log.e(TAG, Thread.currentThread().toString())
+            Log.e(TAG, Thread.currentThread().toString())
             val startTime = System.currentTimeMillis()
             val listOfNowPlayResp = MovieRestClient.getInstance().api.listNowPlayMovies(
                 language = "en-US",
@@ -81,15 +85,18 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             val deferred1 = async {
                 delay(1000L)
+                1
             }
             val deferred2 = async {
                 delay(2000L)
+                2
             }
             val startTime = System.currentTimeMillis()
-            deferred1.await()
-            deferred2.await()
+            val result1 = deferred1.await()
+            val result2 = deferred2.await()
             val endTime = System.currentTimeMillis()
             getDuration(startTime, endTime)
+            Log.e("runSuspendFunctionsInSequences", "result $result1 --- result: $result2")
         }
     }
 
@@ -98,15 +105,20 @@ class LoginViewModel : ViewModel() {
             val deferred = listOf(
                 async {
                     delay(1000L)
+                    1
                 },
                 async {
                     delay(2000L)
+                    2
                 }
             )
             val startTime = System.currentTimeMillis()
-            deferred.awaitAll()
+            val result = deferred.awaitAll()
             val endTime = System.currentTimeMillis()
             getDuration(startTime, endTime)
+            val result1 = result[0]
+            val result2 = result[1]
+            Log.e("runSuspendFunctionsInSequences", "result $result1 --- result: $result2")
         }
     }
 
