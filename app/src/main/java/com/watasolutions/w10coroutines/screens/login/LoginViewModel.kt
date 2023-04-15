@@ -11,6 +11,12 @@ class LoginViewModel : ViewModel() {
         val TAG: String = LoginViewModel::class.java.name
     }
 
+    fun loopForever(){
+        for (i in 0..Integer.MAX_VALUE) {
+            Log.e(TAG, Thread.currentThread().toString())
+        }
+    }
+
     fun getNowPlaying() {
         viewModelScope.launch {
             Log.e(TAG, Thread.currentThread().toString())
@@ -19,7 +25,7 @@ class LoginViewModel : ViewModel() {
                     MovieRestClient.getInstance().api.listNowPlayMovies(language = "en-US", page = 1)
             }
             Log.e(TAG, Thread.currentThread().toString())
-            Log.e("getNowPlaying", movieResp.results.toString())
+            Log.e("getNowPlaying", "SIZE: ${movieResp.results?.size}")
         }
     }
 
@@ -81,19 +87,16 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    suspend fun longTask(delayInMilSec: Long, value: Int) : Int{
+        delay(delayInMilSec)
+        return value
+    }
+
     fun runSuspendFunctionsInSequences() {
         viewModelScope.launch {
-            val deferred1 = async {
-                delay(1000L)
-                1
-            }
-            val deferred2 = async {
-                delay(2000L)
-                2
-            }
             val startTime = System.currentTimeMillis()
-            val result1 = deferred1.await()
-            val result2 = deferred2.await()
+            val result1 = longTask(1000, 1)
+            val result2 = longTask(2000, 2)
             val endTime = System.currentTimeMillis()
             getDuration(startTime, endTime)
             Log.e("runSuspendFunctionsInSequences", "result $result1 --- result: $result2")
@@ -104,12 +107,10 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             val deferred = listOf(
                 async {
-                    delay(1000L)
-                    1
+                  longTask(1000, 1)
                 },
                 async {
-                    delay(2000L)
-                    2
+                    longTask(2000, 2)
                 }
             )
             val startTime = System.currentTimeMillis()

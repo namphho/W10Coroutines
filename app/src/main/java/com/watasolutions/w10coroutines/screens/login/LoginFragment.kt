@@ -34,11 +34,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLoadMovieParallel.setOnClickListener {
-            //model.runSuspendFunctionsInParallels()
-            model.getNowPlaying()
+            model.runSuspendFunctionsInParallels()
         }
         binding.btnLoadMovieSequences.setOnClickListener {
-            model.getNowPlayingAndComingUpMovieInSequences()
+            model.runSuspendFunctionsInSequences()
         }
     }
 
